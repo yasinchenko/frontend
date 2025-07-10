@@ -1,0 +1,56 @@
+// src/pages/Login.tsx
+import { useState } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
+
+export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [token, setToken] = useState("");
+
+  const handleLogin = async () => {
+    try {
+      const res = await axios.post("http://194.87.145.25:8000/auth/login", {
+        username: email,
+        password: password,
+      });
+      setToken(res.data.access_token);
+      alert("Login successful");
+    } catch (err) {
+      alert("Login failed");
+    }
+  };
+
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center gap-4 p-4">
+      <h1 className="text-2xl font-bold">IoT Control Login</h1>
+      <input
+        type="email"
+        placeholder="Email"
+        className="border rounded p-2 w-72"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        className="border rounded p-2 w-72"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <button
+        onClick={handleLogin}
+        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+      >
+        Login
+      </button>
+      <Link
+        to="/register"
+        className="text-blue-600 hover:underline"
+      >
+        Don't have an account? Register
+      </Link>
+      {token && <p className="text-green-600">Token: {token}</p>}
+    </div>
+  );
+}
