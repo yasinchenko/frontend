@@ -1,12 +1,12 @@
 // src/pages/Login.tsx
 import { useState } from "react";
 import api from "@/services/api";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [token, setToken] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
@@ -14,8 +14,10 @@ export default function Login() {
         username: email,
         password: password,
       });
-      setToken(res.data.access_token);
+      const token = res.data.access_token;
+      localStorage.setItem("access_token", token);
       alert("Login successful");
+      navigate("/dashboard");
     } catch (err) {
       alert("Login failed");
     }
@@ -50,7 +52,6 @@ export default function Login() {
       >
         Don't have an account? Register
       </Link>
-      {token && <p className="text-green-600">Token: {token}</p>}
     </div>
   );
 }

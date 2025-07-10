@@ -4,7 +4,6 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 
 export default defineConfig(({ mode }) => {
-  // Загружаем .env, .env.development или .env.production автоматически
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
 
   return {
