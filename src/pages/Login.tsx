@@ -1,6 +1,6 @@
 // src/pages/Login.tsx
 import { useState } from "react";
-import axios from "axios";
+import api from "@/services/api";
 import { Link } from "react-router-dom";
 
 export default function Login() {
@@ -10,7 +10,7 @@ export default function Login() {
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post("http://194.87.145.25:8000/auth/login", {
+      const res = await api.post("/auth/login", {
         username: email,
         password: password,
       });
